@@ -54,7 +54,7 @@ max_iter = 300
 tol = 1e-08
 
  # random seed
-random_state = 0
+random_state = 3
 
 distortions = []
 silhouettes = []
@@ -83,7 +83,7 @@ plt.show()
 
 
 # The best number of clusters is 4
-km = KMeans(6, init, n_init = iterations ,max_iter= max_iter, tol = tol,random_state = random_state)
+km = KMeans(4, init, n_init = iterations ,max_iter= max_iter, tol = tol,random_state = random_state)
 labels = km.fit_predict(X_pca)
 df_T["cluster"] = labels
 
