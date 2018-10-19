@@ -61,6 +61,7 @@
 \setlength\parindent{0pt} % Removes all indentation from paragraphs
 
 \graphicspath{{../reports/figures/}} % Sets the path for all graphics, so only name is needed afterwards.
+\setlength\intextsep{0pt} % Set space after figures
 
 %----------------------------------------------------------------------------------------
 %	DEFINITION OF EXPERIMENTS
@@ -149,7 +150,7 @@ Then we saved this new data as processed data in its corresponding folder: data/
 
 
 \labday{Wednesday, 17 October 2018}
-\experiment{More cleaning}
+\experiment{Feature Selection}
 
 Done by Juan Jos\'e Corroto, Javier C\'ordoba and \'Alvaro Guerrero\\
 
@@ -164,28 +165,44 @@ So, we create a new dataframe with only \textit{Acelerometer} and \textit{Linear
 
 We then calculate the \textit{PCA} with an \textit{explained\_variance\_ratio} of \textbf{0.78} and \textbf{0.14}, which is a very good representation of the original 18 features we were studying.
 
-With this results, we plot a \textit{scatterplot} to visualize it.
+With this results, we plot a \textit{scatterplot} to visualize it(Figure \ref{data plot 1}).
+
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{PCA_Plot_Accelerometer_Day1.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Plot of the data after PCA}
+\label{data plot 1}
+\end{figure}
 
 
-\includegraphics[scale=0.9]{PCA_Plot_Accelerometer_Day1.png}
+
+After that we run the \textit{k-means} algorithm with different number of centroids and print the \textit{silhouette} and \textit{distortion}. We initialize the centroids using the \textit{K-means++}algorithm as well. You can see the measurements of distortion and silhouette of KMeans with different number of centroids in figures \ref{K-means distortion 1} and \ref{K-means silhouette 1} respectively.\\
 
 
-After that we run the \textit{k-means} with different number of centroids and print the \textit{silhouette} and \textit{distortion}. Next we have the measurements of distortion and silhouette of KMeans with different number of centroids.
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{KMeans_Distortion_Accelerometer_Day1.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Distortion of K-means with different number of centroids}
+\label{K-means distortion 1}
+\end{figure}
 
-\includegraphics[scale=1]{KMeans_Distortion_Accelerometer_Day1.png}
-\\
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{KMeans_Silhouette_Accelerometer_Day1.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Silhouette of K-means with different number of centroids}
+\label{K-means silhouette 1}
+\end{figure}
+By looking at the plots, we have decided to choose \textbf{4} as the final number of centroids.\\
 
-\includegraphics[scale=0.9]{KMeans_Silhouette_Accelerometer_Day1.png}
-\\
-
-
-By looking at the plots, we have decided to choose \textbf{4} as the final number of centroids.\\↔
-
-\newpage
 Finally, we run the \textit{k-means} algorithm with said number of centroids and plot the results, each cluster having a different color, and the centroids being colored in red.\\
 
-\includegraphics[scale=1]{KMeans_Plot_Accelerometer_Day1.png}
-\\
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{KMeans_Plot_Accelerometer_Day1.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Plot of the data after K-means (centroids in red)}
+\label{K-Means plot 1}
+\end{figure}
+
 
 %----------------------------------------------------------------------------------------
 
