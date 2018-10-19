@@ -1,5 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
 from sklearn import preprocessing 
 from sklearn.cluster import KMeans
 from sklearn import metrics
@@ -30,13 +31,15 @@ print (estimator.explained_variance_ratio_)
 x = X_pca[:,0]
 y = X_pca[:,1]
 plt.scatter(x,y)
+plt.savefig("../../reports/figures/PCA_Plot_Accelerometer_Day1")
 plt.show()
+
 
 
 # Clustering: KMEANS
 # First, we try to determine the best number of centroids
 # parameters
-init = 'random' # initialization method 
+init = 'k-means++' # initialization method 
 
 # to run 10 times with different random centroids 
 # to choose the final model as the one with the lowest SSE
@@ -67,16 +70,20 @@ for i in range(2, 20):
 plt.plot(range(2,20), distortions, marker='o')
 plt.xlabel('Number of clusters')
 plt.ylabel('Distortion')
+plt.xticks(np.arange(0, 20, 1.0))
+plt.savefig("../../reports/figures/KMeans_Distortion_Accelerometer_Day1")
 plt.show()
 # Print the Silouhette
 plt.plot(range(2,20), silhouettes , marker='o')
 plt.xlabel('Number of clusters')
-plt.ylabel('Silohouette')
+plt.ylabel('Silhouette')
+plt.xticks(np.arange(0, 20, 1.0))
+plt.savefig("../../reports/figures/KMeans_Silhouette_Accelerometer_Day1")
 plt.show()
 
 
 # The best number of clusters is 4
-km = KMeans(4, init, n_init = iterations ,max_iter= max_iter, tol = tol,random_state = random_state)
+km = KMeans(6, init, n_init = iterations ,max_iter= max_iter, tol = tol,random_state = random_state)
 labels = km.fit_predict(X_pca)
 df_T["cluster"] = labels
 
@@ -88,4 +95,5 @@ x = X_pca[:,0]
 y = X_pca[:,1]
 plt.scatter(x,y, c = km.labels_)
 plt.scatter(km.cluster_centers_[:, 0], km.cluster_centers_[:, 1], c = "red")
+plt.savefig("../../reports/figures/KMeans_Plot_Accelerometer_Day1")
 plt.show()
