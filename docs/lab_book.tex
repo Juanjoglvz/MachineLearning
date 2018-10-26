@@ -205,6 +205,90 @@ Finally, we run the \textit{k-means} algorithm with said number of centroids and
 
 Before trying to get meaning from the clusters, we have decided to repeat this experiment by doing some exploration on the features.
 
+
+%----------------------------------------------------------------------------------------
+
+\labday{Friday, 26 October 2018}
+\experiment{Feature Selection done well}
+
+Done by Juan Jos\'e Corroto.
+
+We have repeated the same process as before: pick the day 1 data from the whole database, but this time, we are going to perform some analysis on the features in order to remove those features that gives us less value due to redundancy, instead of removing some columns randomly.
+First, we still remove all columns that have to do with the \textit{Fast Fourier transform}, since we don't know how it works and we can not extract knowledge from them. The same with the \textit{Middle Sample} columns.
+After that we remove \textit{NaN} columns and rows as we were doing proviously.\\
+
+Now we are going to see the correlation between the features:
+
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{Features_CorrelationMatrix_preDrop_Day1.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Correlation of the 24 features we now have}
+\label{Correlation predrop}
+\end{figure}
+
+We can see some variables with a very high correlation in figure \ref{Correlation predrop}. There are some couple of features with a correlation near to 1 (The maximum value), like features 0 and 1, or 21 and 22. This features are the mean and median values of every axis, so we remove all median values from our features. \\
+
+Having a very similar median and mean values gives us some information: The mean of a value is an stimator strongly affected by outliers, while the median is not. If the median and the mean have similar values, this means little ammount of outliers in our data (It does not mean they are non existent).\\
+
+From the correlation matrix we can also see some features with a very big correlation: the mean values of each axis between both sensors. This means the value of x for the Accelerometer and the LinearAcceleration are highly correlated, so we remove one of those (In this case, the value of the Accelerometer is dropped). The result can be seen in Figure \ref{Correlation postdrop}.
+
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{Features_CorrelationMatrix_postDrop_Day1.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Correlation of the 15 features we now have after removing some}
+\label{Correlation postdrop}
+\end{figure}
+
+After removing these features, we are going to use hierarchical clustering to see if we have more redundancies in the values instead of the correlation. As seen in the Figure \ref{Clustering features}, there are little clusters of features, but the most similar ones are features 3, 4 and 5. Those are the covariances of the accelerometer. Since those features seem to have very similar values, we can use only one of them.
+
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{Features_Dendogram_Day1.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Features dendogram}
+\label{Clustering features}
+\end{figure}
+
+\experiment{Repeating the process}
+
+Done by Juan Jos\'e Corroto.
+
+With our new dataset finished from the previous experiment, we are going to repeat the process of our last day. First we apply PCA with an \textit{explained\_variance\_ratio} of \textbf{0.76} and \textbf{0.14}. This ratio is very similar to the one we had in the previous iteration, and pretty good considering we have removed features that were highly correlated. 
+\\
+
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{PCA_Plot_Accelerometer_Day1_Selected.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Plot of the data after PCA}
+\label{data plot 1 Selected}
+\end{figure}
+
+The data is plotted in Figure \ref{data plot 1 Selected}, and we can see some differences with respect to the plot we had in the previous day.
+\\
+We run K-means several times again. We get very good values of Distortion and Silhouette again, thought this time they are even better for 4 clusters, so we select again this number of clusters and run K-means, with the plotted results shown in Figure \ref{K-Means plot 1 Selected}.
+
+
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{KMeans_Distortion_Accelerometer_Day1_Selected.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Distortion of K-means with different number of centroids}
+\label{K-means distortion 1 Selected}
+\end{figure}
+
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{KMeans_Silhouette_Accelerometer_Day1_Selected.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Silhouette of K-means with different number of centroids}
+\label{K-means silhouette 1 Selected}
+\end{figure}
+
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{KMeans_Plot_Accelerometer_Day1_Selected.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Plot of the data after K-means (centroids in red)}
+\label{K-Means plot 1 Selected}
+\end{figure}
+
+
 %----------------------------------------------------------------------------------------
 
 \labday{Friday, 26 March 2010}
