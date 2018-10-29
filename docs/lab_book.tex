@@ -291,6 +291,92 @@ We run K-means several times again. We get very good values of Distortion and Si
 
 %----------------------------------------------------------------------------------------
 
+\labday{Saturday, 27 October 2018}
+\experiment{Using other sensors}
+
+Done by \'Alvaro Guerrero del Pozo.
+
+In this experiment, we have used what we have learnt until now, this time applied to other sensors. Again, we load the dataset, but just keep the data of the first day. Then, we drop any column that contains no information (i.e is null) and rows with null values. Then, we just keep columns related to \textit{GyroscopeStat} and \textit{RotationVector}
+
+As before, we now plot correlations between features:
+
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{2710/Features_CorrelationMatrix_preDrop.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Correlation of the 18 features}
+\label{Correlation Predrop Gyroscope}
+\end{figure}
+
+
+As expected, \textit{Mean} and \textit{Median} values of each axis, of both sensors are highly correlated, so we can safely drop one of them, as the only add redundant informacion. We choose to remove \textit{Median} values. But, there is an exception: X axis of the \textit{Gyroscope}. The correlation between \textit{Mean} and \textit{Median} isn't high enough, so we don't remove any of them.
+Also, we can see that there is a surprisingly high (inverse) correlation between \textit{Y Mean} and \textit{X Mean} of the \textit{Rotation Vector}.\\\\\\
+It's not as high as other values (most of the previous ones had a correlation of near to 1), but still, with a correlation of around \textbf{-0.75}, we have decided to remove \textit{Y Mean}.
+
+As a result, we are left with 12 features, whose correlations can be seen in the next figure:
+
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{2710/Features_CorrelationMatrix_postDrop.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Correlation of the 12 features}
+\label{Correlation Postdrop Gyroscope}
+\end{figure}
+
+\clearpage
+After that, we plot the dendogram of the features (Figure \ref{Dendogram Gyroscope}).
+
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{2710/Features_Dendogram.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Dendogram}
+\label{Dendogram Gyroscope}
+\end{figure}
+
+As expected, the most similar features are \textit{Mean} and \textit{Median} of the x axis of the gyroscope. We won't remove any of them, as we consider of interest the fact that only in this case, \textit{Mean} and \textit{Median} differ this much. We want this fact to influence the next steps or experiments.
+
+\clearpage
+Now that we have our data only with the features that are considered relevant, we proceed to visualize the data, by using \textit{k-means}.\\
+
+First, we apply PCA, and obtain an \textit{explained\_variance\_ratio} of \textbf{0.809} and \textbf{0.128}. It's a high result, so we expect to obtain a good visualization. The plot of PCA is:
+
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{2710/PCA_Plot_Gyroscope.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Plot of the data after PCA}
+\label{Plot Gyroscope}
+\end{figure}  
+
+\textit{  }\\\\\\\
+After that, we run \textit{k-means} several times, from 2 to 20 \textit{centroids} and plot the Distortion \ref{Distortion Gyroscope} and Silhouette \ref{Silhouettes Gyroscope}.
+
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{2710/KMeans_Distortion_Gyroscope.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Distortion}
+\label{Distortion Gyroscope}
+\end{figure}  
+
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{2710/KMeans_Silhouttes_Gyroscope.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Silhouettes}
+\label{Silhouettes Gyroscope}
+\end{figure}  
+
+\clearpage
+
+We choose 4 as the best number of \textit{centroids}, as there is a maximun in the \textit{silhouette}, and the \textit{distortion} is low. The resulting plot is shown below.
+
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{2710/KMeans_Plot_Gyroscope.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Plot of the data after K-means (centroids in red)}
+\label{K-Means Gyroscope}
+\end{figure}
+
+As we can see, the centroids have been placed where there are higher concentrain of points, but there is a decent amount of points that would be assigned to the neightbour cluster, should the centroids change slightly. Is a matter for another experiment to interpret this results, and decide wether they are good enough or not.
+
+%----------------------------------------------------------------------------------------
+
 \labday{Friday, 26 March 2010}
 
 \experiment{table}
