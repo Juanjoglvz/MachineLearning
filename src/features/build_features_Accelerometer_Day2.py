@@ -77,8 +77,7 @@ savefig("../../reports/figures/Features_CorrelationMatrix_postDrop_Day2")
 show()   
 
 # There is still a high correlation between the first three columns, which are the variances
-# of the three axis, this time a lot greater than the previous experement. But, we will wait
-# maintain them for the same reason: keep the same features as before to have some means to compare the results.
+# of the three axis. Lets see if by doing feature clustering we can see the same relationship.
 
 # Now we plot a dendogram.
 scaler = preprocessing.MinMaxScaler()
@@ -91,7 +90,7 @@ cluster.hierarchy.dendrogram(clusters, color_threshold=50)
 plt.savefig("../../reports/figures/Features_Dendogram_Day2")
 plt.show()
 
-# We remove the variances:
+# We can see from the dendogram that the values are still very related, so we remove the variances:
 df_T = df_T.drop("AccelerometerStat_x_VAR", axis = 1)
 df_T = df_T.drop("AccelerometerStat_y_VAR", axis = 1)
 df_T = df_T.drop("AccelerometerStat_z_VAR", axis = 1)

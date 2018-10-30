@@ -239,7 +239,8 @@ From the correlation matrix we can also see some features with a very big correl
 \label{Correlation postdrop}
 \end{figure}
 
-After removing these features, we are going to use hierarchical clustering to see if we have more redundancies in the values instead of the correlation. As seen in the Figure \ref{Clustering features}, there are little clusters of features, but the most similar ones are features 0, 1, 2 and 12. Those are the variances of the accelerometer. Since those features seem to have very similar values, we can use only one of them.
+
+There are a couple of features that are still highly correlated: The variances of the accelerometer, but this correlation is not high enough to remove them straight up, so we are going to use hierarchical clustering to see if we can extract more information. As seen in the Figure \ref{Clustering features}, there are some clusters of features, but the most similar ones are features 0, 1, 2 and 12. Those are the variances of the accelerometer. These are the features we were looking for, therefore, we can use only one of them.
 
 \begin{figure}[h]
 \includegraphics[width=0.9\linewidth]{Features_Dendogram_Day1.png}
@@ -378,109 +379,72 @@ As we can see, the centroids have been placed where there are higher concentrain
 
 %----------------------------------------------------------------------------------------
 
-\labday{Friday, 26 March 2010}
+\labday{Tuestay, 30 October 2018}
 
-\experiment{table}
+\experiment{Selecting different data}
+The aim of this experiment is to select data from a different day, to see if it is significantly different than that of the first day. So, we are going to repeat the process of studying the \textit{Acceleromenter} and \textit{Linear Acceleration} variables.
+\\
 
-\begin{table}[H]
-\begin{tabular}{l l l}
-\toprule
-\textbf{Groups} & \textbf{Treatment X} & \textbf{Treatment Y} \\
-\toprule
-1 & 0.2 & 0.8\\
-2 & 0.17 & 0.7\\
-3 & 0.24 & 0.75\\
-4 & 0.68 & 0.3\\
-\bottomrule
-\end{tabular}
-\caption{The effects of treatments X and Y on the four groups studied.}
-\label{tab:treatments_xy}
-\end{table}
+The first thing to do is to remove all the features we can not use: as before, we remove the timestamp and the non-numerical values, and also the features that have something to do with the \textit{First Fourier Transform}. After that we study the correlation between variables.
 
-Table \ref{tab:treatments_xy} shows that groups 1-3 reacted similarly to the two treatments but group 4 showed a reversed reaction.
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{Features_CorrelationMatrix_preDrop_Day2.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Correlation of the 24 features we have}
+\label{Correlation predrop2}
+\end{figure}
 
-%----------------------------------------------------------------------------------------
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{Features_CorrelationMatrix_postDrop_Day2.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Correlation of the 15 features we now have after removing some}
+\label{Correlation postdrop2}
+\end{figure}
 
-\labday{Saturday, 27 March 2010}
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{Features_Dendogram_Day2.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Features dendogram}
+\label{Clustering features2}
+\end{figure}
 
-\experiment{Bulleted list example} % You don't need to make a \newexperiment if you only plan on referencing it once
+As we can see in figures \ref{Correlation predrop2}, \ref{Correlation postdrop2} and \ref{Clustering features2}, the situation is very similar: The mean and median of every sensor is highly correlated, and the variances of the accelerometer are highly correlated but not high enough too discard them. But when making the clustering we have proof enough that their information is very similar and we discard them as well, leaving us with the same 12 features we had on the previous experiment.
 
-This is a bulleted list:
+We are now going to plot the data, as seen in figure \ref{data plot 2 Selected}. For that we have to, of course, apply PCA. In this case, the \textit{explained\_variance\_ratio} is a little lower: \textbf{0.51134397} and \textbf{0.17562308}. This can be explained because we have almost double the data as before. Anyways, it is still high enough to have a good representation of the data.
 
-\begin{itemize}
-\item Item 1
-\item Item 2
-\item \ldots and so on
-\end{itemize}
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{PCA_Plot_Accelerometer_Day2_Selected.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Plot of the data after PCA}
+\label{data plot 2 Selected}
+\end{figure}
 
-%-----------------------------------------
+The next step is to do some clustering to the data. As before, we are going to use \textit{K-means}, and we are also going to use the elbow method to see the best number of clusters.
 
-\experiment{example}
 
-\lipsum[6]
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{KMeans_Distortion_Accelerometer_Day2_Selected.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Distortion of K-means with different number of centroids}
+\label{K-means distortion 2 Selected}
+\end{figure}
 
-%-----------------------------------------
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{KMeans_Silhouette_Accelerometer_Day2_Selected.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Silhouette of K-means with different number of centroids}
+\label{K-means silhouette 2 Selected}
+\end{figure}
 
-\experiment{example2}
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{KMeans_Plot_Accelerometer_Day2_Selected.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Plot of the data after K-means (centroids in red)}
+\label{K-Means plot 2 Selected}
+\end{figure}
 
-\lipsum[7]
+In figures \ref{K-means distortion 2 Selected} and \ref{K-means silhouette 2 Selected} we can infere that, again, a good number of clusters is 4. In Figure \ref{K-Means plot 2 Selected} we can see a plot of the data after clustering. The data looks a lot different than that of the first day, and the clusters seem less defined even. Maybe we should try a different cluster algorithm than K-means?
 
-%----------------------------------------------------------------------------------------
-%	FORMULAE AND MEDIA RECIPES
-%----------------------------------------------------------------------------------------
-
-\labday{} % We don't want a date here so we make the labday blank
-
-\begin{center}
-\HRule \\[0.4cm]
-{\huge \textbf{Formulae and Media Recipes}}\\[0.4cm] % Heading
-\HRule \\[1.5cm]
-\end{center}
-
-%----------------------------------------------------------------------------------------
-%	MEDIA RECIPES
-%----------------------------------------------------------------------------------------
-
-\newpage
-
-\huge \textbf{Media} \\ \\
-
-\normalsize \textbf{Media 1}\\
-\begin{table}[H]
-\begin{tabular}{l l l}
-\toprule
-\textbf{Compound} & \textbf{1L} & \textbf{0.5L}\\
-\toprule
-Compound 1 & 10g & 5g\\
-Compound 2 & 20g & 10g\\
-\bottomrule
-\end{tabular}
-\caption{Ingredients in Media 1.}
-\label{tab:med1}
-\end{table}
-
-%-----------------------------------------
-
-%\textbf{Media 2}\\ \\
-
-%Description
-
-%----------------------------------------------------------------------------------------
-%	FORMULAE
-%----------------------------------------------------------------------------------------
-
-\newpage
-
-\huge \textbf{Formulae} \\ \\
-
-\normalsize \textbf{Formula 1 - Pythagorean theorem}\\ \\
-$a^2 + b^2 = c^2$\\ \\
-
-%-----------------------------------------
-
-%\textbf{Formula X - Description}\\ \\
-
-%Formula
 
 %----------------------------------------------------------------------------------------
 
