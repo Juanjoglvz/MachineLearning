@@ -5,6 +5,7 @@ from numpy import corrcoef, transpose, arange
 from pylab import pcolor, show, colorbar, xticks, yticks, savefig
 import sklearn.neighbors
 from scipy import cluster
+from sklearn import preprocessing 
 
 # Read the data and load it into memory
 df = pd.read_csv("../../data/raw/T2.csv")
@@ -80,17 +81,21 @@ show()
 # Besides, it has little sense thinking that the measures of different axis are redundant.
 
 # Now we plot a dendogram.
+scaler = preprocessing.MinMaxScaler()
+datanorm = scaler.fit_transform(df_T)
+
 dist = sklearn.neighbors.DistanceMetric.get_metric('euclidean')
-matsim = dist.pairwise(transpose(df_T))
+matsim = dist.pairwise(transpose(datanorm))
 clusters = cluster.hierarchy.linkage(matsim, method = 'complete')
 cluster.hierarchy.dendrogram(clusters, color_threshold=50)
 plt.savefig("../../reports/figures/Features_Dendogram_Day1")
 plt.show()
 
-# By looking at the dendogram, we can see that columns 3, 4 and 5 have very similar values
-# This means we can remove two of the covariance columns, since their information is very similar.
-df_T = df_T.drop("AccelerometerStat_COV_y_x", axis = 1)
-df_T = df_T.drop("AccelerometerStat_COV_z_y", axis = 1)
+# By looking at the dendogram, we can see that columns 0, 1, 2 and 12 have very similar values
+# This means we can remove the variances of the accelerometer, since their information is very similar.
+df_T = df_T.drop("AccelerometerStat_x_VAR", axis = 1)
+df_T = df_T.drop("AccelerometerStat_y_VAR", axis = 1)
+df_T = df_T.drop("AccelerometerStat_z_VAR", axis = 1)
 
 # Save processed data 
 df_T.to_csv('../../data/processed/T2_Accelerometer.csv', index=False)
