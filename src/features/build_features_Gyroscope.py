@@ -5,6 +5,7 @@ from numpy import corrcoef, transpose, arange
 from pylab import pcolor, show, colorbar, xticks, yticks, savefig
 import sklearn.neighbors
 from scipy import cluster
+from sklearn import preprocessing 
 
 OUTPUT_FIG = "../../reports/figures/2710/"
 
@@ -72,17 +73,21 @@ xticks(arange(0,12),range(0,12))
 savefig(OUTPUT_FIG + "Features_CorrelationMatrix_postDrop")
 show()    
 
+#We normalize the data
+scaler = preprocessing.MinMaxScaler()
+datanorm = scaler.fit_transform(df_T)
+
 # Now we plot a dendogram.
 dist = sklearn.neighbors.DistanceMetric.get_metric('euclidean')
-matsim = dist.pairwise(transpose(df_T))
+matsim = dist.pairwise(transpose(datanorm))
 clusters = cluster.hierarchy.linkage(matsim, method = 'complete')
-cluster.hierarchy.dendrogram(clusters, color_threshold=0)
+cluster.hierarchy.dendrogram(clusters, color_threshold=2.7)
 plt.savefig(OUTPUT_FIG +"Features_Dendogram")
 plt.show()
 
-#As expected, the most similar features, the first action taken by the dendogram,
-# is grouping features 0 and 1, Gyroscope X Mean and Median. But, we don't want to
-# remove any of them, they had a (surprisingly) low correlation.
+# We drop the most similar features
+df_T = df_T.drop("GyroscopeStat_y_VAR", axis = 1)
+df_T = df_T.drop("GyroscopeStat_z_VAR", axis = 1)
 
 # Save processed data 
 df_T.to_csv('../../data/processed/T2_Gyroscope.csv', index=False)

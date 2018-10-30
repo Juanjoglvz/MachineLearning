@@ -331,12 +331,13 @@ After that, we plot the dendogram of the features (Figure \ref{Dendogram Gyrosco
 \label{Dendogram Gyroscope}
 \end{figure}
 
-As expected, the most similar features are \textit{Mean} and \textit{Median} of the x axis of the gyroscope. We won't remove any of them, as we consider of interest the fact that only in this case, \textit{Mean} and \textit{Median} differ this much. We want this fact to influence the next steps or experiments.
+As we can see, the most similar features are the \textit{Variances} of the three axis of the gyroscope (at, the left, in green color), so we drop two of them, as they don't add much informacion, and keep only \textit{GyroscopeStat\_x\_VAR}. 
+The next more similar features (right, red color), are \textit{GyroscopeStat\_x\_MEDIAN} and \textit{GyroscopeStat\_COV\_z\_x}, wich is something we were expecting, due to the influence of the x axis of the \textit{Gyroscope} in both features. Due to this fact, we don't consider this features similar enough so one of them gets removed, so we keep both.
 
 \clearpage
 Now that we have our data only with the features that are considered relevant, we proceed to visualize the data, by using \textit{k-means}.\\
 
-First, we apply PCA, and obtain an \textit{explained\_variance\_ratio} of \textbf{0.809} and \textbf{0.128}. It's a high result, so we expect to obtain a good visualization. The plot of PCA is:
+First, we apply PCA, and obtain an \textit{explained\_variance\_ratio} of \textbf{0.825} and \textbf{0.130}. It's a high result, so we expect to obtain a good visualization. The plot of PCA is:
 
 \begin{figure}[h]
 \includegraphics[width=0.9\linewidth]{2710/PCA_Plot_Gyroscope.png}
