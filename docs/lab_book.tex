@@ -447,5 +447,38 @@ In figures \ref{K-means distortion 2 Selected} and \ref{K-means silhouette 2 Sel
 
 
 %----------------------------------------------------------------------------------------
+\labday{Thursday, 1st November 2018}
+\experiment{Interpreting the results: Gyroscope}
+
+After all the previous experiments, the only remaining work is interpreting the results. IN this section, we will interpret the results of the Gyroscope. \\
+We are going to focus on the \textit{Rotation\_Vector}. The first part is understanding how the three axis of this sensor work.
+
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{sensors/rotationvector_axis_globe.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Rotation Vector Axis Globe}
+\label{Rotation Vector Axis Globe}
+\end{figure}
+
+\clearpage
+By looking at the image, we can interpret that the z axis is perpendicular to the phone screen, the y axis is parallel to the phone's longest side, and x axis is perpendicular to both of them.\\
+The sensors \textit{should} give a result of 0 when te phone is laying in an \textbf{horizontal surface}.\\\\
+The next thing we do is plotting the results of the clustering along with the measures of the sensors. We'll use \textit{seaborn} library for that.
+
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{2710/Gyroscope_factorplot.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Rotation Vector Barplot}
+\label{Rotation Vector Factorplot}
+\end{figure}
+
+As we can see, the first cluster's (number 0) z axis has a value of \textbf{-0.5}. Taking into account this measures are a \textit{sin} (and therefore, they can have values from 0 to 1), we assume this clusters includes the measures of when the user is using the phone, as the \textit{arcsin} of \textbf{-0.5} is \textit{30 degrees}. In other words, the phone is inclined so the user can see the screen.\\
+
+In the next cluster, Cluster 1, we see high measures of the x axis. Taking into account that the sensor doesn't activate when the phone is laying horizontal in a surface, we have concluded that measures of (near to) 1, in the \textit{Rotation Vector x axis} mean that the user is walking, with the phone in his/her trousers.\\
+
+Looking at the Cluster 2, we can see that is similar to the number 1: only x has measures, while z has values near to 0. Also, we can see that values for x axis are negative, instead of positive. We have decided that this measures represent the same actions than Cluster 1, but with the phone in the opposite position (i.e. instead of the screen facing the leg, it is facing to the direction the user is walking, or vice-versa).
+
+\clearpage
+Lastly, we have to talk about Cluster 3. Given that both the the x axis and z axis have values different than 0, we know that the phone is inclined. The most common situation where this could happen, as our thinking, is the situation when we are sitting and the phone is on our trousers. It is not exactly \textbf{on} our leg (all sensors would give values of 0, it would be the same as the phone laying in a table), but in our pocket. In this situation the phone tends to "fall" to the right if it's on the pocket of our right leg, or to the left otherwise, giving the results we see in the above figure.
 
 \end{document}
