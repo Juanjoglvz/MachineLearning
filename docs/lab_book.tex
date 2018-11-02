@@ -445,6 +445,74 @@ The next step is to do some clustering to the data. As before, we are going to u
 
 In figures \ref{K-means distortion 2 Selected} and \ref{K-means silhouette 2 Selected} we can infere that, again, a good number of clusters is 4. In Figure \ref{K-Means plot 2 Selected} we can see a plot of the data after clustering. The data looks a lot different than that of the first day, and the clusters seem less defined even. Maybe we should try a different cluster algorithm than K-means?
 
+%----------------------------------------------------------------------------------------
+
+\labday{Thursday, 31 October 2018}
+
+\experiment{Density based clustering: DBSCAN}
+After clustering both our \textit{Accelerometer} and \textit{Gyroscope} data with a traditional approach, that is, KMeans.
+
+We are going to cluster it using a density based approach with the use of the \texttt{DBSCAN}. The settings used (\textit{epsilon} and \textit{minPts}) have been tuned manually to get the best results.
+
+
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{DBSCAN_Plot_Accelerometer_Day1.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Accelerometer Day1 after clustering with DBSCAN}
+\label{DBSCAN AccelerometerDay1}
+\end{figure}
+
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{DBSCAN_Plot_Accelerometer_Day2.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Accelerometer Day2 after clustering with DBSCAN}
+\label{DBSCAN AccelerometerDay2}
+\end{figure}
+
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{DBSCAN_Plot_Gyroscope.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Gyroscope after clustering with DBSCAN}
+\label{DBSCAN Gyroscope}
+\end{figure}
+
+As we can see in figures \ref{DBSCAN AccelerometerDay1}, \ref{DBSCAN AccelerometerDay2} and \ref{DBSCAN Gyroscope} 
+DBSCAN is not able to correctly cluster the data because it only groups the data in 2 clusters and some data points are lost because they are not assigned any cluster.
+ 
+Because of this we are not going to use \texttt{DBSCAN} based clustering in our interpretations.
+
+
+\experiment{Density based clustering: Local Outlier Factor (LOF)}
+After our first approach with density based clustering using DBSCAN we are now going to detect outliers with another density based clustering approach: \textit{Local Outlier Factor}.
+\\
+
+This algorithm gives each data point an outlier score, as opposed to other algorithms that give a binary score (outlier or not outlier). So, in order to get a set of outliers we select only the data points that are in the 99 percentile of outlier score
+
+
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{LOF_Plot_Accelerometer_Day1.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Accelerometer Day1 LOF Outliers}
+\label{LOF AccelerometerDay1}
+\end{figure}
+
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{LOF_Plot_Accelerometer_Day2.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Accelerometer Day2 LOF Outliers}
+\label{LOF AccelerometerDay2}
+\end{figure}
+
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{LOF_Plot_Gyroscope.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Gyroscope LOF Outliers}
+\label{LOF Gyroscope}
+\end{figure}
+
+As we can see in figures \ref{LOF AccelerometerDay1}, \ref{LOF AccelerometerDay2} and \ref{LOF Gyroscope} the outliers (marked with an \textbf{x}) are not outliers in the plot. 
+
+The reason for this is that the data that is represented is the result of applying PCA to the original data, a consequence of this is that the data does not represent the shape nor the values that it originally had.
 
 %----------------------------------------------------------------------------------------
 \labday{Thursday, 1st November 2018}
