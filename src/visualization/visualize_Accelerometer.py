@@ -112,7 +112,8 @@ y_pred = clf.fit_predict(df_T)
 #n_errors = (y_pred != ground_truth).sum()
 X_scores = clf.negative_outlier_factor_
 
-n_outliers = 5
+percentile = 1
+n_outliers = len(X_scores[X_scores < np.percentile(X_scores, percentile)])
 lowest_indices = np.argsort(-X_scores, axis=0)[-1:-1-n_outliers:-1]
 inliers = np.delete(X_pca, lowest_indices, axis=0)
 outliers = X_pca[lowest_indices]
@@ -120,6 +121,7 @@ outliers = X_pca[lowest_indices]
 plt.title("Local Outlier Factor (LOF)")
 plt.scatter(inliers[:,0], inliers[:,1])
 plt.scatter(outliers[:,0], outliers[:,1], s=65, marker="x")
+plt.savefig("../../reports/figures/LOF_Plot_Accelerometer_Day2")
 plt.show()
 
 db = DBSCAN(eps=0.1, min_samples=8, metric='euclidean')
@@ -132,6 +134,7 @@ plt.title("DBSCAN clustering")
 plt.scatter(X_pca[y_db==0,0], X_pca[y_db==0,1], c='lightblue', marker='o', s=40, label='cluster 1')
 plt.scatter(X_pca[y_db==1,0], X_pca[y_db==1,1], c='red', marker='s', s=40, label='cluster 2')
 plt.legend()
+plt.savefig("../../reports/figures/DBSCAN_Plot_Accelerometer_Day2")
 plt.show()
 
 
