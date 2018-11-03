@@ -452,7 +452,7 @@ In figures \ref{K-means distortion 2 Selected} and \ref{K-means silhouette 2 Sel
 \experiment{Density based clustering: DBSCAN}
 After clustering both our \textit{Accelerometer} and \textit{Gyroscope} data with a traditional approach, that is, KMeans.
 
-We are going to cluster it using a density based approach with the use of the \texttt{DBSCAN}. The settings used (\textit{epsilon} and \textit{minPts}) have been tuned manually to get the best results.
+We are going to cluster it using a density based approach with the use of the \texttt{DBSCAN} algorithm. The settings used (\textit{epsilon} and \textit{minPts}) have been tuned manually to get the best results.
 
 
 \begin{figure}[h]
@@ -476,10 +476,9 @@ We are going to cluster it using a density based approach with the use of the \t
 \label{DBSCAN Gyroscope}
 \end{figure}
 
-As we can see in figures \ref{DBSCAN AccelerometerDay1}, \ref{DBSCAN AccelerometerDay2} and \ref{DBSCAN Gyroscope} 
-DBSCAN is not able to correctly cluster the data because it only groups the data in 2 clusters and some data points are lost because they are not assigned any cluster.
+As we can see in figures \ref{DBSCAN AccelerometerDay1}, and \ref{DBSCAN Gyroscope} DBSCAN is not able to correctly cluster the data because it divides the plot in half and also loses some data points. However, in figure \ref{DBSCAN AccelerometerDay2} we can clearly see that the data is now clustered correctly, it distinguishes between two clearly differentiated groups.
  
-Because of this we are not going to use \texttt{DBSCAN} based clustering in our interpretations.
+Because of this we are only going to use \texttt{DBSCAN} based clustering in the Accelerometer Day2.
 
 
 \experiment{Density based clustering: Local Outlier Factor (LOF)}
