@@ -581,4 +581,23 @@ The most interesting thing we saw when analyzing the same sensors on a different
 
 Two of the clusters we had are still present: Cluster 0 has all values close to 0, which means the phone is standing flat on a table. Cluster 0 has values close to 0 except for axis Z. This means, according to our interpretation, that the user is walking. The other 2 clusters are a lot different. On the one hand, most of their values have a very high variance, and also, their values are very scattered (One value can be of -3, while the next value, 15 seconds later, is 15). On the other hand, these 2 clusters (Cluster 1 and 3) have very little values. We are talking cluster 1 has 16 values out of more than 4000. These made us think that these clusters were bad results. Also, looking at the plot we obtained after applying k-means (\ref{K-Means plot 2 Selected} from the 30th of October), we could think that these clusters were created due to the supposition of k-means that the distribution of the data is globular, which in this case is not. Since our data seems a lot more dense in a particular area, we applied DBScan. Looking at the results of the DBScan, we can see that these 2 wierd clusters end up merging with cluster 0. This gives us a result of 2 clusters on this day: One where the phone was not being moved, and therefore not accelerated, and one where it was highly accelerated in the direction of the screen, presumably while moving (Like on Day 1).
 
+
+
+\experiment{Interpreting the results: Outliers}
+
+After we interpreted both the Accelerometer and the Gyroscope data the only task left is to interpret the outliers obtained through \textit{Local Outlier Factor}.
+\\
+
+First, we will interpret Day 1 of the Accelerometer, as we only have 28 data points we can easily see why they are outliers, all of them have zero or nearly to zero values in all columns except for one, the LinearAcceleration in the Z axis that corresponds to the vector that points to the sky.
+
+
+We can interpret that the user in this specific day picked up the phone from a table few times throughout the day.
+\\
+
+Then, we will interpret Day 2 of the Accelerometer, this time we have a few more data points but we can also see why they're outliers, they all belong to cluster 0 so, as we said previously, the smartphone was standing on a table or another surface, the factor that makes them outliers is that the LinearAcceleration on one of the three axis is very high. So maybe the sensor suffered from a lot of environmental noise in that short period of time, or even the surface where the phone was lying in received a sudden movement/vibration.
+\\
+
+Finally, we are going to interpret the Gyroscope data, this time we also have few data points and, after exploring the data we dont see any special feature of the outliers, so we cannot give any interpretation of the data.
+
+
 \end{document}
