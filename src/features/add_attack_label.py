@@ -17,7 +17,6 @@ with open("../../data/raw/Moriarty.csv") as f, open("../../data/interim/Moriarty
             uuid.append(int(feat[1]))
             
         
-    
 df = pd.read_csv("../../data/raw/T2.csv")
 df["labels"] = 0
 
@@ -40,8 +39,32 @@ for column in df.columns:  # Remove columns with all null values
         df = df.drop(column, axis=1)
         
 df = df.dropna()  # Remove rows with null values        
+df.to_csv("../../data/interim/T2_Labels.csv", index=False)
 
 
 
-    
+df = pd.read_csv("../../data/raw/T4.csv")
+df["labels"] = 0
+
+current = 0
+for index, row in df.iterrows():
+    if (index > 0 and index < len(df)) and current < len(uuid):
+        # First UUID of T4 is greater than first UUID of Moriarty
+        while df.iloc[index - 1]['UUID'] > uuid[current]:
+            current = current +1 
+        if (df.iloc[index - 1]['UUID'] <= uuid[current]):
+            if (row['UUID'] > uuid[current]):
+                current = current + 1
+                df.loc[index-1, 'labels'] = 1
+                while current < len(uuid) and row['UUID'] > uuid[current] :
+                    current += 1
+
+
+   
+for column in df.columns:  # Remove columns with all null values
+    if df[column].isnull().all():
+        df = df.drop(column, axis=1)
+        
+df_si = df[(df['labels']>0)]
+df.to_csv("../../data/interim/T4_Labels.csv", index=False)
 
