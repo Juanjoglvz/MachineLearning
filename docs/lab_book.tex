@@ -599,12 +599,81 @@ Then, we will interpret Day 2 of the Accelerometer, this time we have a few more
 
 Finally, we are going to interpret the Gyroscope data, this time we also have few data points and, after exploring the data we dont see any special feature of the outliers, so we cannot give any interpretation of the data.
 
+%----------------------------------------------------------------------------------------
+
+\labday{Wednesday, 28 November 2018}
+\experiment{First steps: Moriarty}
+
+Today, our task was easy. We just had to include a new feature in the dataset. This new features is if there was a malicious attack, or not. We simply called this new column \textit{labels}, and it has a value of \textbf{1} if a malicious atatck happened, or \textbf{0} if not.
+
+The first problem we faced occured when trying to load \textit{Moriarty.csv} using pandas. The problem was caused by some lines \"Having more features\" than others. In fact, just happened that some rows had semicolon wich were interpreted as separators, as comas. More severe was that that same rows also had a coma used as a textual separator, not as a \textbf{csv} separator.
+
+We solved that opening the file and removing that characters. For efficiency, we also store the \textbf{UUID} feature of the rows, so we can add it to the T2 and T4 datasets later.
+
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{Milestone2/replace.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Code Snippet}
+\label{Acceleration Factorplot 2}
+\end{figure}
+
+\textbf{  }\\
+After that, the second problem appeared: \textbf{UUID} fields of Moriarty and T2 didn't coincide. Therefore, we decided to add the malicious attack to the inmediate lower \textbf{UUID} that we could find. We also take into account that more than one row of \textit{Moriarty.csv} can be considered the same attack for T2.
+
+
+%----------------------------------------------------------------------------------------
+
+\labday{Sunday, 2 December 2018}
+\experiment{Features}
+
+Now that we have our dataset correctly labeled, we proceed to reduce its features. We clean the data as usual, dropping row columns, and rows with any null value, and any other column with no important information, like Version number. After that, we use what we learnt from the dataset in the previous Milestone to drop redundant features. Finally, we use hierarchical clustering to drop more features. This time, we haven't used Correlation Matrices nor Dendrograms, as we had 47 features, and it was too difficult to interpret thatn graphics. Instead, we have looked directly at the arrays containing the information of the hierarchical clustering, generated as follows:
+
+\textbf{  }\\
+
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{Milestone2/hierarchical.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Hierarchical clustering}
+\label{Acceleration Factorplot 2}
+\end{figure}
+
+\textbf{  }\\
+
+By looking at the array \textit{clusters} we can find redundant features to drop them. This was an iterative process that we repeaed three times, until we were left with \textbf{34} features.
+
+%----------------------------------------------------------------------------------------
+\clearpage
+\experiment{Prediction Attempt}
+
+After the previous steps, we face a problem, a huge one, our data is \textbf{hugely} unbalanced. Attack registers involve only around \textbf{0.7} \% of all the registers that we have. In order to solve it, we tried to use \textit{LOF}. We assumed that rows involving a malicious attack would be found to be outliers of our dataset, along some other registers, but this would still solve, or reduce, the problem of unbalanced data.\\
+
+
+
+Unfortunately, I have to say that this experiment ended in failure. Outliers are marked as so independently of the nature of the attack (malicious or not), and for this reason the problem of unbalanced data remains the same.\\
+
+
+After this experiment we have different options for the future:
+\begin{itemize}
+  \item The malicious attack could have been performed at a previous moment, not only in the register with an inmediately lower UUID of T2. We could change the way we label our data. 
+  \item We could go back in the process and attempt to do a better feature selection.
+  \item We could use different techniques for detecting outliers.
+  \item The whole assumption of malicious attacks being outliers could wrong. Maybe we can get good results exploring other possibilities.
+  \item Attacks and sensors could be totatlly unrelated. Another option is using the dataset T4.
+\end{itemize}
+
+Aside from the result, for completeness, the neccessary code for predicting has been added. It is done trough Naive Bayes, as its result is more useful than using a Decision Tree, that just labels all test data as non-malicious attack.
+%----------------------------------------------------------------------------------------
 
 \labday{Deliveries}
 \experiment{First Delivery}
 \begin{itemize}
 \item[Repository:] \href{https://github.com/Juanjoglvz/MachineLearning.git}{https://github.com/Juanjoglvz/MachineLearning.git}
 \item[Delivery1 video:] \href{https://www.youtube.com/watch?v=SKceWx340Zc\&feature=youtu.be}{https://www.youtube.com/watch?v=SKceWx340Zc\&feature=youtu.be}
+\end{itemize}
+
+\experiment{Second Delivery}
+\begin{itemize}
+\item[Repository:] \href{https://github.com/Juanjoglvz/MachineLearning.git}{https://github.com/Juanjoglvz/MachineLearning.git}
 \end{itemize}
 
 \end{document}
