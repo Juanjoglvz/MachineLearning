@@ -2,7 +2,7 @@ from sklearn.neighbors import LocalOutlierFactor
 import pandas as pd
 import numpy as np
 from sklearn import preprocessing
-from sklearn.naive_bayes import GaussianNB
+from sklearn.naive_bayes import BernoulliNB
 
 df = pd.read_csv("../../data/processed/T2_Labels_Processed.csv")
 
@@ -14,22 +14,30 @@ y_pred = clf.fit_predict(datanorm)
 
 X_scores = clf.negative_outlier_factor_
 
-percentile = 5
+percentile = 1
 n_outliers = len(X_scores[X_scores < np.percentile(X_scores, percentile)])
 lowest_indices = np.argsort(-X_scores, axis=0)[-1:-1-n_outliers:-1]
 outliers = df.iloc[lowest_indices]
 
-#-----------------------------
+attacks = df[(df['labels'] == 1)]
 
-train = outliers.iloc[:3000]
-test = outliers.iloc[3001:]
+outliers = outliers[(outliers['labels'] != 1)]
+
+outliers = outliers.append(attacks)
+
+#-----------------------------
+msk = np.random.rand(len(outliers)) < 0.8
+
+train = outliers[msk]
+test = outliers[~msk]
+
 train_l = train[['labels']]
 test_l = test[['labels']]
 train = train.drop('labels', axis = 1)
 test = test.drop('labels', axis = 1)
 
 #Create a Gaussian Classifier
-model = GaussianNB()
+model = BernoulliNB()
 
 # Train the model using the training sets 
 model.fit(train, train_l)
