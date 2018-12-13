@@ -4,7 +4,8 @@ from sklearn.naive_bayes import BernoulliNB
 from sklearn.metrics import classification_report
 import warnings
 
-df = pd.read_csv("../../data/processed/T2_sample_per1.csv")
+
+df = pd.read_csv("../../data/processed/T2_sample_per1_accelerometer.csv")
 
 msk = np.random.rand(len(df)) < 0.8
 
@@ -38,13 +39,11 @@ matrix = pd.crosstab(test_l['labels'], predicted, rownames=['actual'], colnames=
 print(matrix)
 
 
-
 # 2nd approximation: Not using only outliers
 #-------------------------------------------------------------
 
-df = pd.read_csv("../../data/processed/T2_sample_per1_inliers.csv")
+df = pd.read_csv("../../data/processed/T2_sample_per1_inliers_accelerometer.csv")
 
-#-----------------------------
 msk = np.random.rand(len(df)) < 0.8
 
 train = df[msk]
@@ -66,8 +65,8 @@ with warnings.catch_warnings():
 #Predict Output 
 predicted= model.predict(test)
 
-
 print("\n-------------------------\nUsing outliers + inliers:\n")
+
 # Metrics
 print("Metrics \n"  +classification_report(test_l, y_pred=predicted))
 
@@ -75,3 +74,4 @@ print("Metrics \n"  +classification_report(test_l, y_pred=predicted))
 print("Confussion Matrix:\n")
 matrix = pd.crosstab(test_l['labels'], predicted, rownames=['actual'], colnames=['preds'])
 print(matrix)
+
