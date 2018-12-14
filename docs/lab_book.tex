@@ -664,6 +664,46 @@ After this experiment we have different options for the future:
 Aside from the result, for completeness, the neccessary code for predicting has been added. It is done trough Naive Bayes, as its result is more useful than using a Decision Tree, that just labels all test data as non-malicious attack.
 %----------------------------------------------------------------------------------------
 
+\labday{Thursday, 13 December 2018}
+\experiment{Improving last experiment}
+
+
+
+There are two slight but important changes that compose this experiment:
+\begin{itemize}
+\item After reviewing previous results, the first change that must be done is related to the data used to train/test the model. The previous experiment shows that malicious can be or not outliers. In fact, most of them aren't. From now on, instead of just using outliers, we will use a sample composed of both outliers and all the attacks. Appart from that, we are also going to use another sample, composed of both outliers and inliers for non-malocious attacks and all malicious attacks, as we don't wan't any model that we use to learn that every outlier-like input is a non-malicious attack.
+\item The second change of today is obtanining a proper report with the prediction metrics.
+\end{itemize}
+
+
+%----------------------------------------------------------------------------------------
+
+\experiment{Using fewer sensors}
+
+For this experiment we are going to proceed in parallel to what we did for Milestone 1, we are going to use just a few sensors. In this experiment, we'll use \textit{LinearAcceleration} and \textit{AccelerometerStat}.\\\\
+As always, we drop unimportant features, like \textit{Version} or \textit{UUID}, and features we are not going to use, features related to \textit{Fast Fourier transform} and \textit{Middle\_Samples}. After that, we'll use a dendrogram to visualize (and remove) the most related, and therefore, redundant, features.\\\\
+
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{Milestone3/Drendrogram_accelerometer.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Dendrogram}
+\label{Milestone 3 Accelerometer Dendrogram}
+\end{figure}
+
+As we can see on \ref{Milestone 3 Accelerometer Dendrogram}, there are several features highly related. From the 25 features that we currently have, we will drop the most related features and keep 17 out of them, being the last one, the label that identifies whether that row is a malicious attack or not.
+
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{Milestone3/report_accelerometer.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Accelerometer Reports}
+\label{Accelerometer Report}
+\end{figure}
+
+Now that we have our dataset with the features that we want to use, the next step is using Naive Bayes to predict. First, the data is splitted 80/20 for training and test, chosen using a boolean mask that changes over exeutions, and then of course we train the model, and predict with the test set. Results can be seen in \ref{Accelerometer Report}.\\\\\\
+
+By looking at the report we notice that the results of using outliers and inliers are better than the ones obtained using only outliers. This results are also better than the ones obtanined the previous day, when we didn't choose any sensor, but we still aim to improve the results in the future.
+%----------------------------------------------------------------------------------------
+
 \labday{Deliveries}
 \experiment{First Delivery}
 \begin{itemize}
@@ -674,6 +714,7 @@ Aside from the result, for completeness, the neccessary code for predicting has 
 \experiment{Second Delivery}
 \begin{itemize}
 \item[Repository:] \href{https://github.com/Juanjoglvz/MachineLearning.git}{https://github.com/Juanjoglvz/MachineLearning.git}
+\item[Branch:] \href{https://github.com/Juanjoglvz/MachineLearning/tree/Milestone2}{https://github.com/Juanjoglvz/MachineLearning/tree/Milestone2}
 \end{itemize}
 
 \end{document}
