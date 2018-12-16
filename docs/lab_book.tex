@@ -722,9 +722,7 @@ For our last experiment, we have tried a different approach. We have used the on
 
 Those are the most important features, and make up 59.24\% of the importance of the model, which is not much, but the rest of the features have less than 4\% of importance, so this is our threshold.
 
-\experiment{Building the model}
 
-We will use the same dataset we used in previous days for other sensors. We drop again unimportant features and take only the seven we listed previously. 
 
 \begin{figure}[h]
 \includegraphics[width=0.9\linewidth]{Milestone3/BigML_Result.png}
@@ -740,7 +738,41 @@ We will use the same dataset we used in previous days for other sensors. We drop
 \label{features Report}
 \end{figure}
 
+\experiment{Building the model}
 
+We will use the same way of obtaining a dataset we used in previous days for other sensors. We drop again unimportant features and take only the seven we listed previously. The model we use now is a random forest. The results obtained can be seen in the Figure \ref{random forest Report}. We can see that the model is a bit better than the one we had from the \textit{accelerometer} and \textit{linear acceleration} sensors alone, specially regarding the false negatives, which is the number we are interested in minimizing (The times when it is an attack and we predict it is not an attack). As before, the model using inlayers along with outlayers gives better results.
+
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{Milestone3/report_selection.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Random Forest report}
+\label{random forest Report}
+\end{figure}
+
+\experiment{Apache Spark}
+
+We are going to try and translate some of out scripts to \textit{Apache Spark}. Our first target is the script where we make our samples: \textit{build\_samples.py}. What we have to change is how we work with the dataframes, since apache dataframes are different than pandas\' dataframes. In Figures \ref{leer Spark} and \ref{escribir Spark} we can see how reading and writing dataframes works in spark. Also, we can change the way we take the random sample when working with \textit{Spark}. With pandas, we had to take a sample and then check whether those values were already outliers to not add them twice. With \textit{Spark} we don\'t need that check, because we can use the \textit{Union} function to merge the dataframes (as seen in Figure \ref{sample Spark}).
+
+
+
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{Milestone3/Spark/leer.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{}
+\label{leer Spark}
+\end{figure}
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{Milestone3/Spark/escribir.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{}
+\label{escribir Spark}
+\end{figure}
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{Milestone3/Spark/sample.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{}
+\label{sample Spark}
+\end{figure}
 
 %----------------------------------------------------------------------------------------
 
