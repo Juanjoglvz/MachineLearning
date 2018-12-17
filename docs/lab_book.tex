@@ -702,6 +702,78 @@ As we can see on \ref{Milestone 3 Accelerometer Dendrogram}, there are several f
 Now that we have our dataset with the features that we want to use, the next step is using Naive Bayes to predict. First, the data is splitted 80/20 for training and test, chosen using a boolean mask that changes over exeutions, and then of course we train the model, and predict with the test set. Results can be seen in \ref{Accelerometer Report}.\\\\\\
 
 By looking at the report we notice that the results of using outliers and inliers are better than the ones obtained using only outliers. This results are also better than the ones obtanined the previous day, when we didn't choose any sensor, but we still aim to improve the results in the future.
+
+%----------------------------------------------------------------------------------------
+
+\labday{Saturday, 15 December 2018}
+\experiment{Feature selection attending a model report}
+
+For our last experiment, we have tried a different approach. We have used the online platform \textit{BigML}\footnote{\href{https://bigml.com/}{https://bigml.com/}} to see what features were more important. We started an \textit{OptiML} process, which makes a lot of different kinds of models and tries to find the best one. It found a \textit{DeepNet} with a very good result, as can be seen in Figure \ref{DeepNet Report}. We used this platform to see what features the model was taking as more important to use them ourselves. The DeepNet tells us that the most important features are (As seen in Figure \ref{features Report}):
+
+\begin{itemize}
+\item \textbf{AccelerometerStat\_x\_MEAN}, with an importance of 22.31\%.
+\item \textbf{MagneticField\_z\_MEAN}, with an importance of 9.36\%.
+\item \textbf{AccelerometerStat\_z\_MEAN}, with an importance of 7.04\%.
+\item \textbf{MagneticField\_y\_MEAN}, with an importance of 6.51\%.
+\item \textbf{LinearAcceleration\_COV\_z\_y}, with an importance of 4.97\%.
+\item \textbf{AccelerometerStat\_y\_MEAN}, with an importance of 4.66\%.
+\item \textbf{LinearAcceleration\_z\_MEAN}, with an importance of 4.39\%.
+\end{itemize}
+
+Those are the most important features, and make up 59.24\% of the importance of the model, which is not much, but the rest of the features have less than 4\% of importance, so this is our threshold.
+
+
+
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{Milestone3/BigML_Result.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{DeepNet report}
+\label{DeepNet Report}
+\end{figure}
+
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{Milestone3/Feature_Importance.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{features report}
+\label{features Report}
+\end{figure}
+
+\experiment{Building the model}
+
+We will use the same way of obtaining a dataset we used in previous days for other sensors. We drop again unimportant features and take only the seven we listed previously. The model we use now is a random forest. The results obtained can be seen in the Figure \ref{random forest Report}. We can see that the model is a bit better than the one we had from the \textit{accelerometer} and \textit{linear acceleration} sensors alone, specially regarding the false negatives, which is the number we are interested in minimizing (The times when it is an attack and we predict it is not an attack). As before, the model using inlayers along with outlayers gives better results.
+
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{Milestone3/report_selection.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Random Forest report}
+\label{random forest Report}
+\end{figure}
+
+\experiment{Apache Spark}
+
+We are going to try and translate some of out scripts to \textit{Apache Spark}. Our first target is the script where we make our samples: \textit{build\_samples.py}. What we have to change is how we work with the dataframes, since apache dataframes are different than pandas\' dataframes. In Figures \ref{leer Spark} and \ref{escribir Spark} we can see how reading and writing dataframes works in spark. Also, we can change the way we take the random sample when working with \textit{Spark}. With pandas, we had to take a sample and then check whether those values were already outliers to not add them twice. With \textit{Spark} we don\'t need that check, because we can use the \textit{Union} function to merge the dataframes (as seen in Figure \ref{sample Spark}).
+
+
+
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{Milestone3/Spark/leer.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{}
+\label{leer Spark}
+\end{figure}
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{Milestone3/Spark/escribir.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{}
+\label{escribir Spark}
+\end{figure}
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{Milestone3/Spark/sample.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{}
+\label{sample Spark}
+\end{figure}
+
 %----------------------------------------------------------------------------------------
 
 \labday{Deliveries}
