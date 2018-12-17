@@ -1,40 +1,16 @@
 import pandas as pd
 import numpy as np
-from numpy import corrcoef, transpose, arange
 
 from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import classification_report
 from sklearn.ensemble import RandomForestClassifier
-from sklearn import preprocessing 
-import sklearn.neighbors
-
-from scipy.cluster import hierarchy
-from scipy import cluster
 
 import warnings
-import matplotlib.pyplot as plt
 
 # Taking important features
 
-df = pd.read_csv("../data/processed/T2_sample_per1.csv")
+df = pd.read_csv("../data/processed/T2_sample_per1_gyroscope.csv")
 
-
-df = df[[col for col in df.columns if ("Gyroscope" in col and "FFT" not in col) or "labels" == col]]
-
-scaler = preprocessing.MinMaxScaler()
-datanorm = scaler.fit_transform(df)
-
-dist = sklearn.neighbors.DistanceMetric.get_metric('euclidean')
-matsim = dist.pairwise(transpose(datanorm))
-clusters = cluster.hierarchy.linkage(matsim, method = 'complete')
-cluster.hierarchy.dendrogram(clusters, color_threshold=50)
-plt.savefig("../../reports/figures/Milestone3/Dendrogram_Gyroscope")
-plt.show()
-
-# Variances for each axis are very correlated thus we drop them
-df = df.drop("GyroscopeStat_x_VAR", axis=1)
-df = df.drop("GyroscopeStat_y_VAR", axis=1)
-df = df.drop("GyroscopeStat_z_VAR", axis=1)
 
 # Split into test and train datasets
 
@@ -74,7 +50,7 @@ print(matrix)
 #-------------------------------------------------------------
 # Taking important features
 
-df = pd.read_csv("../data/processed/T2_sample_per1_inliers.csv")
+df = pd.read_csv("../data/processed/T2_sample_per1_inliers_gyroscope.csv")
 
 df = df[[col for col in df.columns if ("Gyroscope" in col and "FFT" not in col) or "labels" == col]]
 
@@ -91,7 +67,7 @@ train = train.drop('labels', axis = 1)
 test = test.drop('labels', axis = 1)
 
 #Create a Random Forest model
-model = RandomForestClassifier(n_estimators=1000, random_state=7)
+model = RandomForestClassifier(n_estimators=2000, random_state=150)
 
 # Train the model using the training sets 
 with warnings.catch_warnings():
