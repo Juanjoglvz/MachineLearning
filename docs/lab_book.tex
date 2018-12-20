@@ -706,6 +706,33 @@ By looking at the report we notice that the results of using outliers and inlier
 %----------------------------------------------------------------------------------------
 
 \labday{Saturday, 15 December 2018}
+\experiment{Using fewer sensors: Gyroscope}
+In this experiment, as in the previous one, we selected a single sensor, this time only the gyroscope-related data to try to predict when an attack will happen.
+
+The first task is to drop very related features using a dendrogram.
+
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{Milestone3/Dendrogram_Gyroscope.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Gyroscope dendrogram}
+\label{Milestone 3 Gyroscope Dendrogram}
+\end{figure}
+
+Now that we've reduced the number of features from 16 to 9 we are going to create a Naive-Bayes model to try and predict when an attack will happen using only the .
+The data is split 80\%/20\% each corresponding to training and test. The results of this model can be seen in figure \ref{Gyroscope Report}.
+
+As we see on the report the model is pretty bad at predicting ones so now we are going to try and predict using a Random Forest model and adding inliers to the outliers that we previously used.
+The results can be seen in figure \ref{Gyroscope Report}.
+
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{Milestone3/report_gyroscope.png}
+\setlength\belowcaptionskip{-10pt}
+\caption{Accelerometer Reports}
+\label{Gyroscope Report}
+\end{figure}
+
+%--------------------------------------------------------------
+
 \experiment{Feature selection attending a model report}
 
 For our last experiment, we have tried a different approach. We have used the online platform \textit{BigML}\footnote{\href{https://bigml.com/}{https://bigml.com/}} to see what features were more important. We started an \textit{OptiML} process, which makes a lot of different kinds of models and tries to find the best one. It found a \textit{DeepNet} with a very good result, as can be seen in Figure \ref{DeepNet Report}. We used this platform to see what features the model was taking as more important to use them ourselves. The DeepNet tells us that the most important features are (As seen in Figure \ref{features Report}):
